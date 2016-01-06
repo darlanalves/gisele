@@ -50,7 +50,7 @@ class Model {
     }
 
     static fieldToJSON(field, value) {
-        if (field.isArray) {
+        if (field.isArray && Array.isArray(value)) {
             return value.map(field.serialize);
         }
 
