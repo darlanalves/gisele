@@ -1,1 +1,3 @@
-module.exports = {};
+module.exports = {
+  "presets": ["es2015"]
+};
