@@ -89,6 +89,7 @@ describe('StringField', function() {
     describe('#parse(value)', function() {
         it('should cast the value to string', function() {
             var field = new StringField({});
+            expect(field.parse(null)).toBe(null);
             expect(field.parse(123)).toBe('123');
             expect(field.parse(false)).toBe('false');
             expect(field.parse('foo bar ')).toBe('foo bar');
@@ -99,6 +100,7 @@ describe('StringField', function() {
     describe('#serialize(value)', function() {
         it('should return a string if the value is primitive', function () {
             var field = new StringField({});
+            expect(field.serialize(null)).toBe(null);
             expect(field.serialize(123)).toBe('123');
             expect(field.serialize(false)).toBe('false');
             expect(field.serialize('foo bar')).toBe('foo bar');
@@ -117,6 +119,7 @@ describe('BooleanField', function() {
     describe('#parse(value)', function() {
         it('should cast the value to boolean', function() {
             var field = new BooleanField({});
+            expect(field.parse(null)).toBe(null);
             expect(field.parse(123)).toBe(true);
             expect(field.parse(false)).toBe(false);
             expect(field.parse('foo bar')).toBe(true);
@@ -129,6 +132,7 @@ describe('NumberField', function() {
     describe('#parse(value)', function() {
         it('should cast the value to boolean', function() {
             var field = new NumberField({});
+            expect(field.parse(null)).toBe(null);
             expect(field.parse(123)).toBe(123);
             expect(field.parse(false)).toBe(0);
             expect(field.parse('123')).toBe(123);
@@ -144,6 +148,7 @@ describe('DateField', function() {
             var validDate = new Date(Date.parse('2011-01-10T00:00:00.000Z'));
             var validTimestamp = new Date(1e7);
 
+            expect(field.parse(null)).toEqual(null);
             expect(field.parse('2011-01-10T00:00:00.000Z')).toEqual(validDate);
             expect(field.parse(1e7)).toEqual(validTimestamp);
             expect(field.parse('invalid')).toBe(null);
@@ -157,6 +162,7 @@ describe('DateField', function() {
             var date = '2011-01-10T00:00:00.000Z';
             var dateObject = new Date('2011-01-10T00:00:00.000Z');
 
+            expect(field.parse(null)).toEqual(null);
             expect(field.serialize(dateObject)).toBe(date);
         });
     });

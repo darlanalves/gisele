@@ -31,6 +31,10 @@ class Field {
         return value;
     }
 
+    static nullOrValue(value, parsedValue) {
+        return (value === null) ? null : parsedValue;
+    }
+
     static create(config) {
         let type = config.type;
         let FieldConstructor = Field.registry.get(type) || GenericField;
@@ -43,28 +47,30 @@ Field.registry = new Map();
 
 class StringField extends Field {
     parse(value) {
-        return String(value !== undefined ? value : '').trim();
+        return Field.nullOrValue(value, String(value !== undefined ? value : '').trim());
     }
 
     serialize(value) {
-        return typeof value !== 'object' ? String(value) : undefined;
+        return Field.nullOrValue(value, (typeof value !== 'object' ? String(value) : undefined));
     }
 }
 
 class BooleanField extends Field {
     parse(value) {
-        return !!value;
+        return Field.nullOrValue(value, !!value);
     }
 }
 
 class NumberField extends Field {
     parse(value) {
-        return value && Number(value) || 0;
+        return Field.nullOrValue(value, (value && Number(value) || 0));
     }
 }
 
 class DateField extends Field {
     parse(value) {
+        if (value == null) return null;
+
         if (isFinite(value)) {
             return new Date(value);
         }
@@ -81,7 +87,7 @@ class DateField extends Field {
     }
 
     serialize(value) {
-        return value instanceof Date ? value.toJSON() : undefined;
+        return Field.nullOrValue(value, value instanceof Date ? value.toJSON() : undefined);
     }
 }
 
